@@ -14,9 +14,9 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: DevDaily - Mr.Gyu's Daily Growth # the main title
+title: DevDaily # the main title
 
-tagline: Stacking knowledge, one commit at a time # it will display as the subtitle
+tagline: 개발 공부 + 취미 Blog # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
  Tech, code, and continuous improvement. Every day is a chance to get better.
