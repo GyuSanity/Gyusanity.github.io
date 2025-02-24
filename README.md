@@ -83,3 +83,7 @@ This project is published under [MIT License][license].
 [vscode]: https://code.visualstudio.com/
 [jetbrains]: https://www.jetbrains.com/?from=jekyll-theme-chirpy
 
+## How to run jekyll
+> npm install
+> npm run build
+> bundle exec jekyll serve
