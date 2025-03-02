@@ -101,3 +101,15 @@ image:
 <img src="/assets/img/post/cka/5.png">
 <img src="/assets/img/post/cka/6.png">
 
+## Requests and Limits 
+- worker node 내 resource를 많이 사용하는 특정 pod(app)이 있을 경우, 다른 pod들이 정상적으로 실행되지 않는 경우가 발생할수 있음
+- 따라서 Pod별 필요한 resource를 Node에 `Request/Limit`으로 통보하여 Kubernetes가 적절하게 노드별 pod를 Scheduling함
+- [link](https://kubernetes.io/ko/docs/concepts/configuration/manage-resources-containers/)의 manifest 파일로 `Request/Limit`을 설정하여 컨테이너 내 생성되는 Pod의 Limit을 설정 가능
+- `Request and Limit`의 사용 장점은 아래 fig에서 확인 가능
+
+<img src="/assets/img/post/cka/7.png">
+
+> kubectl describe node (node-name)으로 확인해보면 kube-system은 digital-ocean에서 관리되는 kube-system을 제외하고 보면 request/limit으로 요청된 CPU/Memory 사항이 없는게 확인됨 
+
+<img src="/assets/img/post/cka/8.png">
+<img src="/assets/img/post/cka/9.png">
