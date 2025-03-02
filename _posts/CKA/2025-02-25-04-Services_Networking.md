@@ -3,7 +3,7 @@ title: 04. [CKA]Services and Networking
 author: Yeon Gyu Yang
 date: 2025-02-25 00:00:00 +0800
 categories: [Certification]
-tags: [CKA ]
+tags: [ CKA ]
 math: true
 toc: true
 mermaid: true
