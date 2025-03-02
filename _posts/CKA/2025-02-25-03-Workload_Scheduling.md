@@ -1,5 +1,5 @@
 ---
-title: Certified Kubernetes Administrator(CKA)
+title: 03. [CKA]Workloads & Scheduling
 author: Yeon Gyu Yang
 date: 2025-02-25 00:00:00 +0800
 categories: [Certification]
@@ -14,94 +14,7 @@ image:
   alt: "CKA"
 ---
 
-## CKA Intro
-- 컨테이너를 관리 및 생성하는 가상 머신을 쿠버네티스
-- Container Orchestration Tool로 요즘 산업에서 제일 많이 쓰이는 툴
-- [Case Study](https://kubernetes.io/case-studies/) 에서 현재 다양한 기업체들에서 사용중인 다양한 사용 예들을 확인 가능
-    - IBM 및 요즘 제일 인기 많은 분야 OpenAI 에서 사용되는 예를 확인 가능
-        -   `Open AI 사용 예` : 7500개의 노드를 생성하고 컨테이너를 관리하는 방법의 예를 보이며 얼마나 확장 가능한지를 보임
-- 위와 같은 업계의 인기로 업계에서 매우 인기 있는 자격증 중 하나는 인증된 Kubernetes Administrator인 `CKA`이다
-- 다루는 범위는 아래와 같은 범위들을 전반적으로 다루며,
-<img src="/assets/img/post/cka/1.png">
-- 기본적인 도커에 대해 개념을 알고, 그 이후 쿠버네티스에 대해 다룬다
-
-- GitHub Repository for CKA
-> https://github.com/zealvora/certified-kubernetes-administrator
-
-- Discord Channel Link
-> https://kplabs.in/chat
-
-- 초기 학습을 위해서 Managed Provider인 Digital Ocean 을 사용할 예정
-  - AWS EKS는 유료이나, Digital Ocean은 Control Plane(Cluster) 구성 무료에 노드는 개당 12달러를 청구하나 현재 200달러 바우처를 제공함으로 Digital Ocean을 사용함
-  - Digital Ocean Credit Referral Code
-> https://m.do.co/c/74dcb0137794
-
----
-
-## 실습 환경 셋팅
-- kubectl 설치 [link](https://spacelift.io/blog/kubectl-auto-completion)
-- kubectl auto completion 
-> apt-get install bash-completion 
-> kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
-> echo 'alias k=kubectl' >>~/.bashrc
-> echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
-> source ~/.bashrc
-
-##  Docker vs Kubernates
-- `docker`
-  - 컨테이너를 만들고 실행하는 기술
-  - 실행단위 : 개별 컨테이너
-  - 사용목적 : 개발 및 태스트 환경 구성
-
-- `kubernetes`
-  - 여러개의 노드(서버)에서 컨테이너를 효율적으로 배포하고 관리하는 오케스트레이션 도구를 말함
-  - 실행단위 : 컨테이너를 묶은 클러스터
-  - 사용목적 : 대규모 서비스 운영 및 배포
-
-
-## 컨테이너 vs pod
-
-> ✔ 컨테이너: 애플리케이션을 실행하는 독립적인 단위
-{: .prompt-tip }
-
-> ✔ Pod: 쿠버네티스에서 컨테이너를 감싸고 관리하는 최소 배포 단위
-{: .prompt-tip }
-
-> ✔ Pod이 컨테이너를 포함하고 있으며, 쿠버네티스를 통해 관리됨
-{: .prompt-tip }
-
----
-
-## 명령어 cheat sheet
-
-### Core concept 명령어(kubectl 기본 명령어)
-- `kubectl get nodes --kubeconfig [config]` : cluster config 파일 설정(DNS/IP or Authentication)
-
-> kube config default path : ~/.kube/config
-{: .prompt-tip }
-
-### Domain2 (Core Concepts)
-
-- `kubectl run nginx --images=nginx` : nginx pod 실행
-- `kubectl get pods [-o wide]` : 실행중인 pods 확인
-- `kubectl get nodes [-o wide]` : 실행중인 노드 정보 확인
-- `kubectl logs <pod name>`: pod 로그 조회
-- `kubectl describe pod <pod name>` : pod 디테일 정보 확인
-- `kubectl exec run --it <pod name> -- bash` : 실행중인 pod access
-- `kubectl delete pod <pod name>` : 생성된 container/pod 삭제
-- `kubectl delete pods --all` : 생성된 모든 pods들 삭제
-- `kubectl apply -f <manifest file>` : manifest 파일을 통해 노드를 생성하는 명령어
-- `kubectl delete -f <manifest file>` : manifest 파일을 통해 생성된 노드를 삭제하는 명령어
-- `kubectl api-resources` : 쿠버네티스에서 사용가능한 리소스 api들 확인 가능
-- `kubectl run nginx --image=nginx --dry-run=clinet` : 검증용으로 사용하는 명령어(실질적인 object는 생성되지 않음)
-- `kubectl run nginx --image=nginx -o yaml` : 사용되는 yaml 파일 format 을 확인 가능(dry run 옵션과 함께 사용하여 manifest 파일로 가져다 사용해도 됨)
-- `kubectl exec -it <pod name> -c <container-name> -- bash` : multiple container로 실행된 pod 내 특정 continaer 접근 명령어( `옵션 c` 가 필요함 )
-- `kubectl run nginx --image=nginx --command -- <command> <args>` : manifest에 정의된 command/args를 무시하고 인자로 전달한 명령어/인자를 컨테이너 실행시 실행
-- `kubectl explain <object>` : CLI 로 DOC 문서 확인 (하위 필드는 .으로 검색 ex. kubectl explain Pod.kind)
-
-### Domain3 (Workloads&scheduling)
-
-#### labels
+## labels
 - 생성된 자원에 대한 key-value dic type으로 라벨링 붙여 넣고, `selector`로 필터링해서 자원 조회 가능
 
 - `kubectl get pods -l <key=value>` : Selector로 특정 필터링을 한 리소스 자원만 조회 (-l env=prod)
@@ -111,13 +24,13 @@ image:
 - `kubectl run nginx --image=nginx --dry-run=client=client -o yaml > get-test.yaml` : 실질적으로 pod 생성하지 않는 디버깅용 명령어, metadata에 라벨정보 run 처럼 env로 manifest 정보 입력 가능
 - `kubectl label pods --all <key=value>` : 모든 pod 에 key=value 태그 달기 (ex. label pods --all status=running)
 
-#### manifest 파일 생성
+### manifest 파일 생성
 - manifest에 생성 시 아래 doc page 에서 확인 가능
 - https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/
   - 하위 필드가 있는 경우 하이퍼 링크로 더 타고 들어가서 어떤 필드값을 채워나갈지 확인 가능 (Pod을 예시로 보면서 확인 가능)
 - 그외 강의 material - [link](https://github.com/zealvora/certified-kubernetes-administrator/blob/master/Domain%201%20-%20Core%20Concepts/manifest-structure.md)
 
-#### replica
+## replica
 - 동일한 pod `sacle up` 하면서 `health 자동으로 관리`를 위해 사용
 - `kubectl get replicaset` : 현재 생성된 replicaset 조회(`rs`로도 사용 가능)
 - `kubectl scale --replicas=10 rs/webserver-replicaset` : pod scale up
@@ -135,7 +48,7 @@ image:
 - `kubectl describe rs/<pod name>` : 생성된 replicaset pod 정보 조회
  
 
-#### deployment
+## deployment
 - behind scene에서 replicaSet 관리 + Update(roll out/roll back)을 수행 
 - 단, deployment 업데이트 후에도 최신 pod를 생성하지 않는다면 existing pod에는 영향을 주지 못함
 - 업데이트 수행 시 기존 replicaSet은 새로운 replicaSet이 생성 된 이후에 사용중지 되며 기존 운영중인 서비스에 영향을 주지 않음!
@@ -151,7 +64,7 @@ image:
 - `kubectl rollout undo deployment/nginx-deployment --to-revision=<number>` : 특정 revision 버전으로 roll back
 - `kubectl scale --replicas=3 deployment/<name>` : deployment로 생성된 pod도 scale 가능
 
-#### Multiple Worker Nodes
+## Multiple Worker Nodes
 - 워커 노드의 리소스(CPU/Storage)에 따라 Production level에서 워커노드를 생성하고 관리하는 방법에 대해 알아본다
 - 워커 노드를 추가하면 workload를 분배하여 load blancing을 수행하여 pod를 적절히 노드에 분배하여 생성이 됨
 - 하나의 워커노드를 가지고 있을 경우, 해당 노드에 문제가 발생 시 서비스가 다운되는 문제가 발생되어 Multiple worker 노드로 관리 시 이에 대한 문제를 막을 수 있음
@@ -161,7 +74,7 @@ image:
 - `kubectl create deployment nginx-deployment --image=nginx --replicas=3` : 3개의 replica를 갖는 nignx image의 deployment 생성
 - `kubectl get pods -o wide` : 생성된 pod들이 어느 워커 노드에 생성되었는지 확인 가능
 
-#### Node Selector
+## Node Selector
 - Node들의 `Flexibility`에 따라 노드별 HW spec이 다를 때, Pod별로 요구하는 HW Spec 요구사항이 다를 수가 있음
 - 위와 같은 경우 `Node Selector`를 활용하여 클러스터 내 pod 배치를 컨트롤 할수 있음
 - node에 `label(key=value, ex.size=medium)`을 할당해놓고, `manifest 파일에 nodeSelector spec`을 이 값으로 설정해 놓으면 매칭되는 node에 pod allocation을 수행
@@ -170,7 +83,7 @@ image:
 - `kubectl label node <node-name> <key>-` : 노드에 설정된 라벨값 삭제
 - `kubectl `
 
-#### Daemon Set
+## Daemon Set
 - Pod copy가 실행되도록 보장해주는 것이 `DaemonSet`임
 - 새로운 노드를 생성 시 기본적으로 돌아가야할 pod들이 있을때 이를 셋트로 생성되도록 할수 있는 활용 예가 있음( ex. 노드 생성 시 기본적으로 Antivirus라는 pod를 실행하도록 구성해야하는 경우 DaemonSet를 사용)
 - pod의 경우 특정 노드 삭제/crash 발생 시 돌고 있던 pod를 reallocate를 수행하지만 daemonset은 reallocation 없이 하나의 노드엔 하나의 정의된 pod만 수행됨
@@ -178,7 +91,7 @@ image:
 - `kubectl get daemonset` : 생성된 daemonset 조회
 - `kubectl apply -f <daemonset manifest file>` : [link](https://kubernetes.io/ko/docs/concepts/workloads/controllers/daemonset/)를 참조하여 manifest로 daemon set 생성(CLI로 생성 x)
 
-#### Node Affinity [link](https://kubernetes.io/ko/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+## Node Affinity [link](https://kubernetes.io/ko/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
 - `Node Selector`의 경우 엄격한 label(key=value) 매칭을 통해서만 node placemnet가 이뤄짐
 - `Node Affinity`는 Selector에 비해 보다 유연한 표현식을 제공
 - 아래와 같은 연산자를 통해 pod scheduling을 제공하며,
@@ -188,20 +101,3 @@ image:
 <img src="/assets/img/post/cka/5.png">
 <img src="/assets/img/post/cka/6.png">
 
-
-### Domain4 (Services and Networking)
-- 
-
-
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
-- `kubectl `
