@@ -1,7 +1,7 @@
 ---
 title: 99. Template
 author: Yeon Gyu Yang
-date: 2025-03-01 00:00:00 +0800
+date: 2025-12-01 00:00:00 +0800
 categories: [OOP_OOAD_UML]
 tags: [ OOP_OOAD_UML ]
 math: true
